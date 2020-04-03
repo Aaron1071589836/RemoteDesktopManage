@@ -39,7 +39,7 @@ namespace RdpTest
         }
 
         /// <summary>
-        /// 加载所以远程桌面配置
+        /// 加载所有远程桌面配置
         /// </summary>
         private void LoadHosts()
         {
@@ -53,7 +53,14 @@ namespace RdpTest
             foreach (var hostGroup in hosts.Where(x => x.ParentId == 0).OrderByDescending(x => x.Sort))
             {
                 //建立分组
-                var hostGroupBox = new HostGroupBox { Dock = DockStyle.Top, Height = 100, Text = hostGroup.Name, ContextMenuStrip = menuGroup, Tag = hostGroup };
+                var hostGroupBox = new HostGroupBox
+                {
+                    Dock = DockStyle.Top,
+                    Height = 100,
+                    Text = hostGroup.Name,
+                    ContextMenuStrip = menuGroup,
+                    Tag = hostGroup
+                };
                 hostGroupBox.GropNameMouseDown += (sender, e) =>
                 {
                     if (e.Button == MouseButtons.Right)
@@ -70,34 +77,38 @@ namespace RdpTest
                         Name = "title",
                         ActiveControl = null,
                         Height = 60,
-                        Text = $"{host.Name}\r\n  {host.FullAddress}",
+                        Text = $"{host.Name}\r\n  ({host.FullAddress})",
                         UseSelectable = true,
                         UseVisualStyleBackColor = true,
                         Tag = host,
                         AutoSize = true,
                         ContextMenuStrip = menuHost,
-                        StyleManager = metroStyleManager
+                        StyleManager = metroStyleManager,
+                        TextAlign = ContentAlignment.MiddleCenter
                     };
-                    title.Click += ConnectRemoteHost;
+                    title.DoubleClick += ConnectRemoteHost;
                     title.MouseDown += MenuTitleRightClick;
                     hostGroupBox.AddControl(title);
                 }
             }
             panelBody.Visible = true;
         }
-
-        /// <summary>
-        /// 连接远程桌面
-        /// </summary>
         private void ConnectRemoteHost(object sender, EventArgs e)
         {
             var host = (RemoteHost)((MetroTile)sender).Tag;
-
+            ConnectRemoteHost(host, e);
+        }
+        /// <summary>
+        /// 连接远程桌面
+        /// </summary>
+        private void ConnectRemoteHost(RemoteHost host, EventArgs e)
+        {
             #region 1.0 创建页签
             var page = new TabPage($"{host.Name}[{host.FullAddress}]");
             tabMain.TabPages.Add(page);
             page.ContextMenuStrip = menuTabPage;
             tabMain.SelectedTab = page;
+
             #endregion
 
             #region 2.0 创建远程桌面客户端
@@ -242,7 +253,8 @@ namespace RdpTest
         /// </summary>
         private void btnAbout_Click(object sender, EventArgs e)
         {
-            Process.Start("https://github.com/wang9563/RemoteDesktopManage");
+            //Process.Start("https://github.com/wang9563/RemoteDesktopManage");
+            MessageBox.Show("Windows服务器管理V1.0");
         }
         #endregion
 
@@ -470,6 +482,19 @@ namespace RdpTest
 
         #endregion
 
+        /// <summary>
+        /// 右键连接
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tmiHostConnect_Click(object sender, EventArgs e)
+        {
+            if (_currSelectHost == null) return;
+            var host = (RemoteHost)_currSelectHost.Tag;
+            ConnectRemoteHost(host, e);
+        }
+
+       
     }
 }
 

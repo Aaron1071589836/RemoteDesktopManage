@@ -162,6 +162,10 @@ namespace MetroFramework.Controls
 
         #region Fields
 
+        private int IconWOrH = 16;
+
+        private Image icon = null;
+
         private SubClass scUpDown = null;
         private bool bUpDown = false;
 
@@ -241,10 +245,24 @@ namespace MetroFramework.Controls
                      ControlStyles.ResizeRedraw |
                      ControlStyles.OptimizedDoubleBuffer |
                      ControlStyles.SupportsTransparentBackColor, true);
-
             Padding = new Point(6, 8);
-        }
 
+            this.DrawMode = TabDrawMode.OwnerDrawFixed;
+            icon = RdpManage.Properties.Resources.icon_close;
+            IconWOrH = icon.Width;
+            IconWOrH = icon.Height;
+        }        
+        protected override void OnMouseDoubleClick(MouseEventArgs e)
+        {
+            if (this.SelectedIndex == 0) return;
+            Point point = e.Location;
+            Rectangle r = GetTabRect(this.SelectedIndex);
+            r.Offset(r.Width - IconWOrH - 3, 2);
+            r.Width = IconWOrH;
+            r.Height = IconWOrH;
+            if (r.Contains(point)) 
+                this.TabPages.RemoveAt(this.SelectedIndex);
+        }
         #endregion
 
         #region Paint Methods
@@ -508,7 +526,7 @@ namespace MetroFramework.Controls
                     }
                 }
             }
-            
+
             base.OnMouseWheel(e);
         }
 
@@ -521,21 +539,21 @@ namespace MetroFramework.Controls
 
         protected override void OnControlAdded(ControlEventArgs e)
         {
- 	         base.OnControlAdded(e);
-             FindUpDown();
-             UpdateUpDown();
-        }
-
-        protected override void OnControlRemoved(ControlEventArgs e)
-        {
- 	        base.OnControlRemoved(e);
+            base.OnControlAdded(e);
             FindUpDown();
             UpdateUpDown();
         }
 
-        protected override void  OnSelectedIndexChanged(EventArgs e)
+        protected override void OnControlRemoved(ControlEventArgs e)
         {
- 	        base.OnSelectedIndexChanged(e);
+            base.OnControlRemoved(e);
+            FindUpDown();
+            UpdateUpDown();
+        }
+
+        protected override void OnSelectedIndexChanged(EventArgs e)
+        {
+            base.OnSelectedIndexChanged(e);
             UpdateUpDown();
             Invalidate();
         }
@@ -625,9 +643,9 @@ namespace MetroFramework.Controls
 
                     Graphics g = Graphics.FromHdc(hDC);
 
-					DrawUpDown(g);
+                    DrawUpDown(g);
 
-					g.Dispose();
+                    g.Dispose();
 
                     WinApi.ReleaseDC(scUpDown.Handle, hDC);
 
@@ -646,5 +664,42 @@ namespace MetroFramework.Controls
 
         #endregion
 
+
+        protected override void OnDrawItem(DrawItemEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            Rectangle r = GetTabRect(e.Index);
+            //当前选中的Tab页，设置不同的样式以示选中
+            if (e.Index == this.SelectedIndex)
+            {
+                Brush selected_color = Brushes.SteelBlue; //选中的项的背景色
+                g.FillRectangle(selected_color, r); //改变选项卡标签的背景色 
+                string title = this.TabPages[e.Index].Text;
+                g.DrawString(title, this.Font, new SolidBrush(Color.Black), new PointF(r.X, r.Y + 5));//PointF选项卡标题的位置 
+                r.Offset(r.Width - IconWOrH, 2);
+
+                g.DrawImage(icon, new Point(r.X, r.Y));//选项卡上的图标的位置 fntTab = new System.Drawing.Font(e.Font, FontStyle.Bold);
+
+            }
+
+            else//非选中的
+
+            {
+
+                Brush selected_color = Brushes.AliceBlue; //选中的项的背景色
+
+                g.FillRectangle(selected_color, r); //改变选项卡标签的背景色 
+
+                string title = this.TabPages[e.Index].Text + "  ";
+
+                g.DrawString(title, this.Font, new SolidBrush(Color.Black), new PointF(r.X, r.Y + 5));//PointF选项卡标题的位置 
+
+                r.Offset(r.Width - IconWOrH, 2);
+
+                g.DrawImage(icon, new Point(r.X, r.Y));//选项卡上的图标的位置 
+
+            }
+
+        }
     }
 }

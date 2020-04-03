@@ -2,7 +2,7 @@
 using System.Data;
 using System.Data.SQLite;
 using System.IO;
-using RdpTest.Properties;
+using RdpManage.Properties;
 
 namespace RdpTest
 {

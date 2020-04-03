@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{1A282828-C161-4293-BD0F-3DAA8183A32C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>RdpTest</RootNamespace>
-    <AssemblyName>RdpTest</AssemblyName>
+    <RootNamespace>RdpManage</RootNamespace>
+    <AssemblyName>RdpManage</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -233,6 +233,7 @@
     <Compile Include="MetroFramework\Native\Taskbar.cs" />
     <Compile Include="MetroFramework\Native\WinApi.cs" />
     <Compile Include="MetroFramework\Native\WinCaret.cs" />
+    <Compile Include="Utils\TimerHelper.cs" />
     <EmbeddedResource Include="Control\HostGroupBox.resx">
       <DependentUpon>HostGroupBox.cs</DependentUpon>
     </EmbeddedResource>
@@ -299,6 +300,7 @@
     <Content Include="MetroFramework\Localization\de\MetroToggle.xml" />
     <Content Include="MetroFramework\Localization\en\MetroToggle.xml" />
     <Content Include="MetroFramework\Localization\tr\MetroToggle.xml" />
+    <None Include="Resources\icon_close.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.109.2\build\net46\System.Data.SQLite.Core.targets')" />

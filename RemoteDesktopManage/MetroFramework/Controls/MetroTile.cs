@@ -6,6 +6,7 @@ using System.Windows.Forms;
 using MetroFramework.Components;
 using MetroFramework.Drawing;
 using MetroFramework.Interfaces;
+using RdpManage.Utils;
 
 namespace MetroFramework.Controls
 {
@@ -164,6 +165,10 @@ namespace MetroFramework.Controls
         #endregion
 
         #region Fields
+
+        public new event EventHandler DoubleClick;
+        DateTime clickTime;
+        bool isClicked = false;
 
         private bool paintTileCount = true;
         [DefaultValue(true)]
@@ -522,7 +527,45 @@ namespace MetroFramework.Controls
 
             base.OnMouseLeave(e);
         }
-
+        protected override void OnMouseMove(MouseEventArgs mevent)
+        {
+            base.OnMouseMove(mevent);
+        }
+        /// <summary>
+        /// 重写单击事件 实现按钮双击
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            if (isClicked)
+            {
+                TimeSpan span = DateTime.Now - clickTime;
+                if (span.Milliseconds < SystemInformation.DoubleClickTime)
+                {
+                    DoubleClick(this, e);
+                    isClicked = false;
+                }
+                else
+                {
+                    isClicked = true;
+                    clickTime = DateTime.Now;
+                    TimerHelper.SetTimeout(() =>
+                    {
+                        isClicked = false;
+                    }, SystemInformation.DoubleClickTime * 2);
+                }
+            }
+            else
+            {
+                isClicked = true;
+                clickTime = DateTime.Now;
+                TimerHelper.SetTimeout(() =>
+                {
+                    isClicked = false;
+                }, SystemInformation.DoubleClickTime * 2);
+            }
+        }
         #endregion
 
         #region Overridden Methods

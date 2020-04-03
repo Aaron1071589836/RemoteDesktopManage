@@ -35,21 +35,17 @@
             this.pnlSetting = new MetroFramework.Controls.MetroPanel();
             this.btnAbout = new MetroFramework.Controls.MetroLink();
             this.btnGlobalSetting = new MetroFramework.Controls.MetroLink();
-            this.btnAddRemoteHost = new MetroFramework.Controls.MetroLink();
             this.btnRefresh = new MetroFramework.Controls.MetroLink();
             this.btnChangeStyle = new MetroFramework.Controls.MetroTile();
             this.menuHost = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tmiHostEdit = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmiHostDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmiDeleteHost = new System.Windows.Forms.ToolStripMenuItem();
-            this.tmiDeleteAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.tmiHostConnect = new System.Windows.Forms.ToolStripMenuItem();
             this.menuTabPage = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tmiCloseHost = new System.Windows.Forms.ToolStripMenuItem();
             this.metroStyleManager = new MetroFramework.Components.MetroStyleManager(this.components);
-            this.menuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tmiGropEdit = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.tmiGroupDelete = new System.Windows.Forms.ToolStripMenuItem();
+            this.menuGroup = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tabMain.SuspendLayout();
             this.pageMain.SuspendLayout();
             this.pnlSetting.SuspendLayout();
@@ -63,6 +59,7 @@
             // 
             this.tabMain.Controls.Add(this.pageMain);
             this.tabMain.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabMain.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
             this.tabMain.Location = new System.Drawing.Point(20, 60);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Drawing.Point(6, 8);
@@ -83,7 +80,7 @@
             this.pageMain.Padding = new System.Windows.Forms.Padding(3);
             this.pageMain.Size = new System.Drawing.Size(564, 312);
             this.pageMain.TabIndex = 0;
-            this.pageMain.Text = "可用";
+            this.pageMain.Text = "服务器列表";
             this.pageMain.UseVisualStyleBackColor = true;
             // 
             // panelBody
@@ -99,7 +96,6 @@
             // 
             this.pnlSetting.Controls.Add(this.btnAbout);
             this.pnlSetting.Controls.Add(this.btnGlobalSetting);
-            this.pnlSetting.Controls.Add(this.btnAddRemoteHost);
             this.pnlSetting.Controls.Add(this.btnRefresh);
             this.pnlSetting.Controls.Add(this.btnChangeStyle);
             this.pnlSetting.Dock = System.Windows.Forms.DockStyle.Bottom;
@@ -117,7 +113,7 @@
             // btnAbout
             // 
             this.btnAbout.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnAbout.Location = new System.Drawing.Point(355, 0);
+            this.btnAbout.Location = new System.Drawing.Point(239, 0);
             this.btnAbout.Name = "btnAbout";
             this.btnAbout.Size = new System.Drawing.Size(67, 37);
             this.btnAbout.TabIndex = 5;
@@ -129,7 +125,7 @@
             // btnGlobalSetting
             // 
             this.btnGlobalSetting.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnGlobalSetting.Location = new System.Drawing.Point(268, 0);
+            this.btnGlobalSetting.Location = new System.Drawing.Point(152, 0);
             this.btnGlobalSetting.Name = "btnGlobalSetting";
             this.btnGlobalSetting.Size = new System.Drawing.Size(87, 37);
             this.btnGlobalSetting.TabIndex = 7;
@@ -137,18 +133,6 @@
             this.btnGlobalSetting.UseSelectable = true;
             this.btnGlobalSetting.UseVisualStyleBackColor = true;
             this.btnGlobalSetting.Click += new System.EventHandler(this.btnGlobalSetting_Click);
-            // 
-            // btnAddRemoteHost
-            // 
-            this.btnAddRemoteHost.Dock = System.Windows.Forms.DockStyle.Left;
-            this.btnAddRemoteHost.Location = new System.Drawing.Point(152, 0);
-            this.btnAddRemoteHost.Name = "btnAddRemoteHost";
-            this.btnAddRemoteHost.Size = new System.Drawing.Size(116, 37);
-            this.btnAddRemoteHost.TabIndex = 4;
-            this.btnAddRemoteHost.Text = "添加远程主机";
-            this.btnAddRemoteHost.UseSelectable = true;
-            this.btnAddRemoteHost.UseVisualStyleBackColor = true;
-            this.btnAddRemoteHost.Click += new System.EventHandler(this.btnAddRemoteHost_Click);
             // 
             // btnRefresh
             // 
@@ -171,6 +155,7 @@
             this.btnChangeStyle.Size = new System.Drawing.Size(85, 37);
             this.btnChangeStyle.TabIndex = 2;
             this.btnChangeStyle.Text = "切换主题";
+            this.btnChangeStyle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.btnChangeStyle.UseSelectable = true;
             this.btnChangeStyle.UseVisualStyleBackColor = true;
             this.btnChangeStyle.Click += new System.EventHandler(this.btnChangeStyle_Click);
@@ -178,41 +163,17 @@
             // menuHost
             // 
             this.menuHost.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmiHostEdit,
-            this.tmiHostDelete});
+            this.tmiHostConnect});
             this.menuHost.Name = "menu";
             this.menuHost.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuHost.Size = new System.Drawing.Size(101, 48);
+            this.menuHost.Size = new System.Drawing.Size(101, 26);
             // 
-            // tmiHostEdit
+            // tmiHostConnect
             // 
-            this.tmiHostEdit.Name = "tmiHostEdit";
-            this.tmiHostEdit.Size = new System.Drawing.Size(100, 22);
-            this.tmiHostEdit.Text = "编辑";
-            this.tmiHostEdit.Click += new System.EventHandler(this.tmiHostEdit_Click);
-            // 
-            // tmiHostDelete
-            // 
-            this.tmiHostDelete.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmiDeleteHost,
-            this.tmiDeleteAll});
-            this.tmiHostDelete.Name = "tmiHostDelete";
-            this.tmiHostDelete.Size = new System.Drawing.Size(100, 22);
-            this.tmiHostDelete.Text = "删除";
-            // 
-            // tmiDeleteHost
-            // 
-            this.tmiDeleteHost.Name = "tmiDeleteHost";
-            this.tmiDeleteHost.Size = new System.Drawing.Size(196, 22);
-            this.tmiDeleteHost.Text = "确认无误，删除！";
-            this.tmiDeleteHost.Click += new System.EventHandler(this.tmiDeleteHost_Click);
-            // 
-            // tmiDeleteAll
-            // 
-            this.tmiDeleteAll.Name = "tmiDeleteAll";
-            this.tmiDeleteAll.Size = new System.Drawing.Size(196, 22);
-            this.tmiDeleteAll.Text = "连同父节点一起删除！";
-            this.tmiDeleteAll.Click += new System.EventHandler(this.tmiDeleteAll_Click);
+            this.tmiHostConnect.Name = "tmiHostConnect";
+            this.tmiHostConnect.Size = new System.Drawing.Size(100, 22);
+            this.tmiHostConnect.Text = "连接";
+            this.tmiHostConnect.Click += new System.EventHandler(this.tmiHostConnect_Click);
             // 
             // menuTabPage
             // 
@@ -232,15 +193,6 @@
             // metroStyleManager
             // 
             this.metroStyleManager.Owner = this;
-            // 
-            // menuGroup
-            // 
-            this.menuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tmiGropEdit,
-            this.toolStripMenuItem1});
-            this.menuGroup.Name = "menu";
-            this.menuGroup.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
-            this.menuGroup.Size = new System.Drawing.Size(101, 48);
             // 
             // tmiGropEdit
             // 
@@ -263,6 +215,15 @@
             this.tmiGroupDelete.Size = new System.Drawing.Size(264, 22);
             this.tmiGroupDelete.Text = "确认无误，删除父节点(含子节点)！";
             this.tmiGroupDelete.Click += new System.EventHandler(this.tmiGroupDelete_Click);
+            // 
+            // menuGroup
+            // 
+            this.menuGroup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tmiGropEdit,
+            this.toolStripMenuItem1});
+            this.menuGroup.Name = "menu";
+            this.menuGroup.RenderMode = System.Windows.Forms.ToolStripRenderMode.System;
+            this.menuGroup.Size = new System.Drawing.Size(101, 48);
             // 
             // MainForm
             // 
@@ -298,21 +259,17 @@
         private MetroFramework.Controls.MetroPanel pnlSetting;
         private MetroFramework.Controls.MetroTile btnChangeStyle;
         private MetroFramework.Controls.MetroLink btnRefresh;
-        private MetroFramework.Controls.MetroLink btnAddRemoteHost;
         private System.Windows.Forms.Panel panelBody;
         private System.Windows.Forms.ContextMenuStrip menuHost;
-        private System.Windows.Forms.ToolStripMenuItem tmiHostEdit;
-        private System.Windows.Forms.ToolStripMenuItem tmiHostDelete;
-        private System.Windows.Forms.ToolStripMenuItem tmiDeleteHost;
-        private System.Windows.Forms.ToolStripMenuItem tmiDeleteAll;
         private System.Windows.Forms.ContextMenuStrip menuTabPage;
         private System.Windows.Forms.ToolStripMenuItem tmiCloseHost;
         private MetroFramework.Components.MetroStyleManager metroStyleManager;
         private MetroFramework.Controls.MetroLink btnAbout;
         private MetroFramework.Controls.MetroLink btnGlobalSetting;
-        private System.Windows.Forms.ContextMenuStrip menuGroup;
+        private System.Windows.Forms.ToolStripMenuItem tmiHostConnect;
         private System.Windows.Forms.ToolStripMenuItem tmiGropEdit;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tmiGroupDelete;
+        private System.Windows.Forms.ContextMenuStrip menuGroup;
     }
 }
